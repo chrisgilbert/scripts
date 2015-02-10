@@ -30,6 +30,12 @@ export TERM=cygwin
 
 mkdir /c
 mkdir ~/.ssh
+mkdir /etc/ansible
+echo """
+[training]
+ansible-training
+""" >> /etc/ansible/hosts
+
 echo "c: /c ntfs acl,user 0 0" >> /etc/fstab
 mount -a
 
