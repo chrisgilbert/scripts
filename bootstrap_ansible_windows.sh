@@ -20,15 +20,14 @@ git submodule update --init --recursive
 
 
 echo """
-source /opt/ansible/hacking/env-setup
+source /opt/ansible/hacking/env-setup >/dev/null 2>&1
 export ANSIBLE_LIBRARY=\$ANSIBLE_HOME/library
 # This setting is to tweak SSH on Cygwin - will be a bit slower, but will work!
 export ANSIBLE_SSH_ARGS=\"-o ControlMaster=no\"
 export ANSIBLE_REMOTE_USER=root
 export TERM=cygwin
-""" >> ~/.bash_profile
+""" | tee -a ~/.bash_profile ~/.zsh_profile
 
-mkdir /c
 mkdir ~/.ssh
 mkdir /etc/ansible
 echo """
@@ -36,11 +35,9 @@ echo """
 ansible-training
 """ >> /etc/ansible/hosts
 
-#echo "c: /c ntfs acl,user 0 0" >> /etc/fstab
-#mount -a
 
-
-cat <<EOF >>  ~/.bash_profile 
+cat <<EOF > ~/.ssh_wrapper
+#!/bin/bash
 SSH_ENV="$HOME/.ssh/environment"
 
 function start_agent {
@@ -65,5 +62,9 @@ else
 fi
 EOF
 
-. ~/.bash_profile
+
+echo You can use ~/.ssh_wrapper in your .bash_profile or .zsh_profile to automatically unlock your private SSH key on opening Babun.
+
+chmod 755 ~/.zsh_profile ~/.ssh_wrapper
+. ~/.zsh_profile
 
