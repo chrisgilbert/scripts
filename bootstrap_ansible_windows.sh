@@ -1,20 +1,20 @@
 #!/bin/bash
 #
-# Chris Gilbert - 10/02/2015
+# v2 Chris Gilbert - 22/05/2015
 # Bootstrap ansible on Windows/Babun Shell
 #
 echo Setting up ansible pre-requisties on windows..
 
-pact install python-paramiko python-crypto python-setuptools openssl libsasl2 gettext
-easy_install pip
-pip install --upgrade pyyaml jinja2 requests
+pact install python python-paramiko python-crypto python-setuptools openssl libsasl2_3 gettext ca-certificates
+/usr/bin/easy_install-2.7 pip
+/usr/bin/pip install --upgrade pyyaml jinja2 requests
 
 echo Installing ansible from src..
 
 git clone https://github.com/ansible/ansible /opt/ansible
 cd /opt/ansible
 # Switch to latest stable version at time of writing - list versions with 'git tag' command
-git checkout v1.8.2
+git checkout v1.9.1-1
 # Checkout submodules
 git submodule update --init --recursive
 
@@ -36,8 +36,8 @@ echo """
 ansible-training
 """ >> /etc/ansible/hosts
 
-echo "c: /c ntfs acl,user 0 0" >> /etc/fstab
-mount -a
+#echo "c: /c ntfs acl,user 0 0" >> /etc/fstab
+#mount -a
 
 
 cat <<EOF >>  ~/.bash_profile 
